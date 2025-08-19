@@ -49,8 +49,7 @@ export function LoginForm() {
                 type="email"
                 autoComplete="email"
                 required
-                placeholder="charlesmuthui206@gmail.com"
-                defaultValue="charlesmuthui206@gmail.com"
+                placeholder="johndoe@email.com"
               />
             </div>
           </div>

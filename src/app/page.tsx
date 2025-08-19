@@ -29,14 +29,6 @@ export default async function Home({ searchParams }: HomeProps) {
         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
           My learning journey through graphic design, 3D, networking, and web development. Everything I learn, I post.
         </p>
-        <div className="flex justify-center">
-            <Button asChild>
-                <Link href="/admin/new-post">
-                    <PlusCircle className="mr-2 h-4 w-4" />
-                    New Post
-                </Link>
-            </Button>
-        </div>
       </header>
 
       <section>

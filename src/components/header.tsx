@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { PenSquare } from 'lucide-react';
+import { LogIn, PenSquare } from 'lucide-react';
 
 export function Header() {
   return (
@@ -12,8 +12,9 @@ export function Header() {
           </span>
         </Link>
         <nav>
-          <Link href="/admin/new-post" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-            New Post
+          <Link href="/admin" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
+            <LogIn className="h-4 w-4" />
+            Admin
           </Link>
         </nav>
       </div>

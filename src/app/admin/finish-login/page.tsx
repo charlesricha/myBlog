@@ -18,16 +18,11 @@ export default function FinishLoginPage() {
             if (isSignInWithEmailLink(auth, window.location.href)) {
                 let email = window.localStorage.getItem('emailForSignIn');
                 if (!email) {
-                    // If the email is not in localStorage, try getting it from cookies as a fallback.
-                    // This can happen if the user opens the link on a different device.
-                    email = getCookie('emailForSignIn') as string | null;
-                    if(!email) {
-                        // If we still don't have an email, we have to ask the user for it.
-                        // For this implementation, we will show an error.
-                        setError('Login failed: Email not found. Please try logging in again from the same device.');
-                        setLoading(false);
-                        return;
-                    }
+                    // If the email is not in localStorage, we have to ask the user for it.
+                    // For this implementation, we will show an error. In a real app, you might show a form.
+                    setError('Login failed: Email not found. Please try logging in again from the same device and browser.');
+                    setLoading(false);
+                    return;
                 }
                 
                 try {

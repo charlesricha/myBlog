@@ -48,7 +48,10 @@ export async function login(
     // Save the email locally so you don't need to ask the user for it again
     // if they open the link on the same device.
     cookies().set('emailForSignIn', validatedFields.data.email, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 15 * 60, path: '/' });
-    window.localStorage.setItem('emailForSignIn', validatedFields.data.email);
+    
+    // This is a client-side instruction, but we need to signal it from the server action.
+    // We can't directly set localStorage from the server.
+    // The login form will need to handle this. For now, we return a success message.
     return { success: true, message: "A sign-in link has been sent to your email address." };
   } catch (e: any) {
     console.error(e);

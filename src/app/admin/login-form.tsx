@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 import { login } from "./actions";
 import { Label } from "@/components/ui/label";
@@ -27,6 +27,19 @@ function SubmitButton() {
 
 export function LoginForm() {
   const [state, formAction] = useActionState(login, { success: false, error: undefined });
+  const [email, setEmail] = React.useState('');
+
+  useEffect(() => {
+    if (state.success && email) {
+        window.localStorage.setItem('emailForSignIn', email);
+    }
+  }, [state.success, email]);
+
+  const handleFormAction = (formData: FormData) => {
+    const emailValue = formData.get("email") as string;
+    setEmail(emailValue);
+    formAction(formData);
+  };
 
   return (
     <div className="mt-8">
@@ -39,7 +52,7 @@ export function LoginForm() {
             </AlertDescription>
         </Alert>
       ) : (
-        <form action={formAction} className="space-y-6">
+        <form action={handleFormAction} className="space-y-6">
           <div>
             <Label htmlFor="email">Email address</Label>
             <div className="mt-1">

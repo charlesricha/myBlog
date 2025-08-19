@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormStatus } from "react-dom";
 import { createPost, getTagSuggestions } from "./actions";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,7 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Lightbulb, LoaderCircle, Sparkles, Upload } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useActionState } from "react";
 import Image from "next/image";
 
 function SubmitButton() {
@@ -49,8 +49,8 @@ function SuggestTagsButton() {
 }
 
 export function NewPostForm() {
-  const [createState, createFormAction] = useFormState(createPost, { success: false, error: undefined });
-  const [suggestState, suggestFormAction] = useFormState(getTagSuggestions, { success: false, tags: [], error: undefined });
+  const [createState, createFormAction] = useActionState(createPost, { success: false, error: undefined });
+  const [suggestState, suggestFormAction] = useActionState(getTagSuggestions, { success: false, tags: [], error: undefined });
   const [preview, setPreview] = useState<string | null>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

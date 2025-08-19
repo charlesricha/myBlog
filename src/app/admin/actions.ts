@@ -1,17 +1,17 @@
 "use server";
 
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { sendSignInLinkToEmail } from "firebase/auth";
 import { auth } from "@/lib/firebase/server"; // Server-side auth
 import { z } from "zod";
 import { cookies } from "next/headers";
 
 const LoginSchema = z.object({
   email: z.string().email("Invalid email address."),
-  password: z.string().min(6, "Password must be at least 6 characters."),
 });
 
 type LoginState = {
   success: boolean;
+  message?: string;
   error?: string;
 };
 
@@ -20,40 +20,40 @@ export async function login(
   formData: FormData
 ): Promise<LoginState> {
   const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-
-  const validatedFields = LoginSchema.safeParse({ email, password });
+  const validatedFields = LoginSchema.safeParse({ email });
 
   if (!validatedFields.success) {
-    const errors = validatedFields.error.flatten().fieldErrors;
     return {
       success: false,
-      error: errors.email?.[0] || errors.password?.[0] || "Invalid input.",
+      error: validatedFields.error.flatten().fieldErrors.email?.[0] || "Invalid input.",
     };
   }
+  
+  const adminEmail = "charlesmuthui206@gmail.com";
+  if (validatedFields.data.email.toLowerCase() !== adminEmail.toLowerCase()) {
+      return { success: false, error: "You are not authorized to log in." };
+  }
+
+  const actionCodeSettings = {
+    // URL you want to redirect back to. The domain (www.example.com) for this
+    // URL must be in the authorized domains list in the Firebase Console.
+    url: `${process.env.NEXT_PUBLIC_SITE_URL}/admin/finish-login`,
+    // This must be true.
+    handleCodeInApp: true,
+  };
 
   try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      validatedFields.data.email,
-      validatedFields.data.password
-    );
-    
-    const idToken = await userCredential.user.getIdToken();
-
-    // Set cookie for session management
-    cookies().set('firebaseIdToken', idToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 60 * 60 * 24, // 1 day
-      path: '/',
-    });
-
-    return { success: true };
+    await sendSignInLinkToEmail(auth, validatedFields.data.email, actionCodeSettings);
+    // The link was successfully sent. Inform the user.
+    // Save the email locally so you don't need to ask the user for it again
+    // if they open the link on the same device.
+    cookies().set('emailForSignIn', validatedFields.data.email, { httpOnly: true, maxAge: 15 * 60, path: '/' });
+    return { success: true, message: "A sign-in link has been sent to your email address." };
   } catch (e: any) {
+    console.error(e);
     let error = "An unknown error occurred.";
-    if (e.code === 'auth/invalid-credential' || e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password') {
-        error = "Invalid email or password. Please try again.";
+    if (e.code) {
+        error = e.code;
     }
     return {
       success: false,
@@ -64,4 +64,15 @@ export async function login(
 
 export async function logout() {
     cookies().delete('firebaseIdToken');
+    cookies().delete('emailForSignIn');
+}
+
+export async function completeLogin(idToken: string) {
+    cookies().set('firebaseIdToken', idToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 60 * 60 * 24, // 1 day
+      path: '/',
+    });
+    cookies().delete('emailForSignIn');
 }

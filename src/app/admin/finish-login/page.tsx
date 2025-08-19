@@ -20,7 +20,7 @@ export default function FinishLoginPage() {
                 if (!email) {
                     // If the email is not in localStorage, try getting it from cookies as a fallback.
                     // This can happen if the user opens the link on a different device.
-                    email = getCookie('emailForSignIn') || null;
+                    email = getCookie('emailForSignIn') as string | null;
                     if(!email) {
                         // If we still don't have an email, we have to ask the user for it.
                         // For this implementation, we will show an error.

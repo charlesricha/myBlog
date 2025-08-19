@@ -6,7 +6,7 @@ import { Footer } from '@/components/footer';
 import '@/styles/prism.css';
 
 export const metadata: Metadata = {
-  title: 'Pixel Chronicles',
+  title: 'Charles.dev',
   description: 'A personal blog about my learning journey through graphic design, 3D, networking, and Next.js.',
 };
 

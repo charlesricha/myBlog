@@ -8,7 +8,7 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2">
           <PenSquare className="h-6 w-6 text-primary" />
           <span className="text-xl font-bold tracking-tight">
-            Pixel Chronicles
+            Charles.dev
           </span>
         </Link>
         <nav>

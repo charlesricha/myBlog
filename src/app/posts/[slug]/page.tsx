@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
     return {};
   }
   return {
-    title: `${post.title} | Pixel Chronicles`,
+    title: `${post.title} | Charles.dev`,
     description: post.content.substring(0, 150),
   };
 }

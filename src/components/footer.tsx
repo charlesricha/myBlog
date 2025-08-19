@@ -2,7 +2,7 @@ export function Footer() {
   return (
     <footer className="border-t">
       <div className="container mx-auto px-4 py-6 text-center text-muted-foreground">
-        <p>&copy; {new Date().getFullYear()} Pixel Chronicles. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Charles.dev. All rights reserved.</p>
       </div>
     </footer>
   );

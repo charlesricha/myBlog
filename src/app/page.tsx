@@ -25,7 +25,7 @@ export default async function Home({ searchParams }: HomeProps) {
   return (
     <div className="space-y-12">
       <header className="text-center space-y-4">
-        <h1 className="text-5xl font-bold tracking-tighter font-headline">Pixel Chronicles</h1>
+        <h1 className="text-5xl font-bold tracking-tighter font-headline">Charles.dev</h1>
         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
           My learning journey through graphic design, 3D, networking, and web development. Everything I learn, I post.
         </p>

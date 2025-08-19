@@ -3,12 +3,9 @@
 import { revalidatePath } from 'next/cache';
 import { addLike as dbAddLike, addComment as dbAddComment } from './data';
 
-// This is a simulation. In a real app, you'd update a database.
-// For now, we'll just log the actions and update our in-memory data store.
-
 export async function likePost(postId: string, slug: string) {
   try {
-    dbAddLike(postId);
+    await dbAddLike(postId);
     revalidatePath(`/posts/${slug}`);
     revalidatePath('/');
     return { success: true, message: 'Post liked!' };
@@ -17,7 +14,7 @@ export async function likePost(postId: string, slug: string) {
   }
 }
 
-export async function addComment(postId: string, slug: string, formData: FormData) {
+export async function addComment(postId: string, slug: string, prevState: { success: boolean, error: string | null }, formData: FormData) {
   const author = formData.get('author') as string;
   const content = formData.get('content') as string;
 
@@ -26,9 +23,9 @@ export async function addComment(postId: string, slug: string, formData: FormDat
   }
   
   try {
-    dbAddComment(postId, author, content);
+    await dbAddComment(postId, author, content);
     revalidatePath(`/posts/${slug}`);
-    return { success: true };
+    return { success: true, error: null };
   }
   catch (error) {
     return { success: false, error: 'Failed to add comment.' };

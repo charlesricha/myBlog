@@ -13,10 +13,10 @@ interface HomeProps {
   };
 }
 
-export default function Home({ searchParams }: HomeProps) {
+export default async function Home({ searchParams }: HomeProps) {
   const selectedTag = searchParams.tag;
-  const allPosts: Post[] = getAllPosts();
-  const allTags = getAllTags();
+  const allPosts: Post[] = await getAllPosts();
+  const allTags = getAllTags(allPosts);
 
   const filteredPosts = selectedTag
     ? allPosts.filter((post) => post.tags.includes(selectedTag))
@@ -33,7 +33,7 @@ export default function Home({ searchParams }: HomeProps) {
             <Button asChild>
                 <Link href="/admin/new-post">
                     <PlusCircle className="mr-2 h-4 w-4" />
-                    New Post & Tag Suggestions
+                    New Post
                 </Link>
             </Button>
         </div>
@@ -61,7 +61,7 @@ export default function Home({ searchParams }: HomeProps) {
               ))}
             </div>
           ) : (
-            <p className="text-center text-muted-foreground py-12">No posts found for this tag.</p>
+            <p className="text-center text-muted-foreground py-12">No posts found. Create one to get started!</p>
           )}
         </Suspense>
       </section>

@@ -24,8 +24,7 @@ function SubmitButton() {
 }
 
 export function CommentForm({ postId, slug }: CommentFormProps) {
-  const addCommentWithIds = addComment.bind(null, postId, slug);
-  const [state, formAction] = useFormState(addCommentWithIds, { success: false, error: null });
+  const [state, formAction] = useFormState(addComment.bind(null, postId, slug), { success: false, error: null });
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {

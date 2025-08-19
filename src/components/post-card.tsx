@@ -25,7 +25,7 @@ export function PostCard({ post }: PostCardProps) {
       </Link>
       <CardHeader>
         <CardTitle>
-          <Link href={`/posts/${post.slug}`} className="hover:text-primary transition-colors">
+          <Link href={`/posts/${post.slug}`} className="hover:opacity-70 transition-opacity">
             {post.title}
           </Link>
         </CardTitle>

@@ -1,7 +1,11 @@
 import Link from 'next/link';
-import { LogIn, PenSquare } from 'lucide-react';
+import { PenSquare } from 'lucide-react';
+import { cookies } from 'next/headers';
+import { AuthButton } from './auth-components';
 
 export function Header() {
+  const isSignedIn = cookies().has('firebaseIdToken');
+
   return (
     <header className="bg-background/80 backdrop-blur-sm sticky top-0 z-40 border-b">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -12,10 +16,7 @@ export function Header() {
           </span>
         </Link>
         <nav>
-          <Link href="/admin" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
-            <LogIn className="h-4 w-4" />
-            Admin
-          </Link>
+          <AuthButton isSignedIn={isSignedIn} />
         </nav>
       </div>
     </header>

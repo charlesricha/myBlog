@@ -51,3 +51,28 @@ export function PostCard({ post }: PostCardProps) {
     </Card>
   );
 }
+
+
+//added this to check if the site can reach firebase
+
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { app } from "../firebaseConfig"; // your Firebase init
+
+export default function TestFirestore() {
+  async function checkFirestore() {
+    try {
+      const db = getFirestore(app);
+      const snap = await getDoc(doc(db, "test", "testDoc"));
+      console.log("Firestore data:", snap.data());
+    } catch (err) {
+      console.error("Firestore error:", err);
+    }
+  }
+
+  return (
+    <div>
+      <button onClick={checkFirestore}>Test Firestore</button>
+    </div>
+  );
+}
+

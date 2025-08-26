@@ -56,7 +56,7 @@ export function PostCard({ post }: PostCardProps) {
 //added this to check if the site can reach firebase
 
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-import { app } from "../firebaseConfig"; // your Firebase init
+import { app } from "@/lib/firebase"; // your Firebase init
 
 export default function TestFirestore() {
   async function checkFirestore() {
